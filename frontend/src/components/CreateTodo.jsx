@@ -1,9 +1,37 @@
 import { useState } from "react";
 
-const CreateTodo = () => {
+const CreateTodo = ({ refreshTodos }) => {
 
     const [ title , setTitle ] = useState("");
     const [ description , setDescription ] = useState("");
+
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+            try{
+                const response = await fetch("http://localhost:3000/todo" , {
+                method : "POST" , 
+                body : JSON.stringify({
+                    title : title,
+                    description : description,
+                }) , 
+                headers : {
+                    "content-type" : "application/json" 
+                }
+            });
+                const json = await response.json();
+                alert("Todo Added");
+
+                setTitle("");
+                setDescription("");
+
+                await refreshTodos();
+
+            } catch(err) {
+                console.log(err);
+                
+            }
+                
+            }
 
   return (
     <div className="flex flex-col w-2/4 m-auto gap-6 items-center mt-4">
@@ -30,24 +58,7 @@ const CreateTodo = () => {
         }}
       />
       <button
-        onClick={(e) => {
-            e.preventDefault();
-            fetch("http://localhost:3000/todo" , {
-                method : "POST" , 
-                body : JSON.stringify({
-                    title : title,
-                    description : description,
-                }) , 
-                headers : {
-                    "content-type" : "application/json" 
-                }
-            })
-                .then(async (res) => {
-                    const json = await res.json();
-                    alert("Todo Added");
-                })
-                
-            }}
+        onClick={handleSubmit}
         className="bg-black text-white w-1/4 p-2 rounded cursor-pointer font-semibold"
       >
         Submit

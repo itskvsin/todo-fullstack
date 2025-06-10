@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Todos = ({ todos, refreshTodo }) => {
+const Todos = ({ todos }) => {
   const [completedTodos, setCompletedTodos] = useState(new Set());
 
   const markAsCompleted = async (todoId) => {

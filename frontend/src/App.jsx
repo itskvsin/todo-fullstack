@@ -19,7 +19,7 @@ const App = () => {
   return (
     <div>
       <CreateTodo refreshTodos={fetchTodos} />
-      <Todos todos={todos} refreshTodo={fetchTodos} />
+      <Todos todos={todos} refreshTodos={fetchTodos} />
     </div>
   )
 }
