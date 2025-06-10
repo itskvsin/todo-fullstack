@@ -4,23 +4,22 @@ import CreateTodo from "./components/createTodo";
 import Todos from "./components/Todos";
 
 const App = () => {
+  const [todos, setTodos] = useState([]);
 
-  const [ todos , setTodos ] = useState([]);
+  const fetchTodos = async () => {
+    const response = await fetch("http://localhost:3000/todos");
+    const data = await response.json();
+    setTodos(data.todos);
+  }
 
-
-useEffect(() => {
-        fetch("http://localhost:3000/todos")
-    .then(async function(res) {
-      const json = await res.json()
-      setTodos (json.todos);
-    })
-} ,[])
-
+  useEffect(() => {
+    fetchTodos()
+  }, [])
 
   return (
     <div>
-      <CreateTodo />
-      <Todos todos={todos} />
+      <CreateTodo refreshTodos={fetchTodos} />
+      <Todos todos={todos} refreshTodo={fetchTodos} />
     </div>
   )
 }

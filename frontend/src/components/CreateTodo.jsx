@@ -6,7 +6,7 @@ const CreateTodo = () => {
     const [ description , setDescription ] = useState("");
 
   return (
-    <div className="flex flex-col w-2/4 m-auto gap-6 items-center">
+    <div className="flex flex-col w-2/4 m-auto gap-6 items-center mt-4">
       <input
         className="border-2 w-full text-xl border-black outline-none p-3 rounded-lg focus:bg-gray-100"
         type="text"
