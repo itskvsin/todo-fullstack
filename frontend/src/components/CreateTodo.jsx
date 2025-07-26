@@ -1,37 +1,37 @@
+import axios from "axios";
 import { useState } from "react";
 
 const CreateTodo = ({ refreshTodos }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-    const [ title , setTitle ] = useState("");
-    const [ description , setDescription ] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // http://localhost:3000/todo
+      await axios.post(
+        "http://localhost:3000/todo",
+        {
+          title: title,
+          description: description,
+        },
+        {
+          headers : {
+            "content-type": "application/json",
+          },
+        }
+      );
+      alert("Todo Added");
+      // console.log(response);      
 
-    const handleSubmit = async (e) => {
-            e.preventDefault();
-            try{
-                const response = await fetch("http://localhost:3000/todo" , {
-                method : "POST" , 
-                body : JSON.stringify({
-                    title : title,
-                    description : description,
-                }) , 
-                headers : {
-                    "content-type" : "application/json" 
-                }
-            });
-                const json = await response.json();
-                alert("Todo Added");
+      setTitle("");
+      setDescription("");
 
-                setTitle("");
-                setDescription("");
-
-                await refreshTodos();
-
-            } catch(err) {
-                console.log(err);
-                
-            }
-                
-            }
+      await refreshTodos();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="flex flex-col w-2/4 m-auto gap-6 items-center mt-4">
@@ -43,7 +43,7 @@ const CreateTodo = ({ refreshTodos }) => {
         placeholder="Title:"
         value={title}
         onChange={(e) => {
-            setTitle(e.target.value);
+          setTitle(e.target.value);
         }}
       />
       <input
@@ -54,7 +54,7 @@ const CreateTodo = ({ refreshTodos }) => {
         placeholder="Description:"
         value={description}
         onChange={(e) => {
-            setDescription(e.target.value);
+          setDescription(e.target.value);
         }}
       />
       <button

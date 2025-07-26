@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Todos = ({ todos }) => {
@@ -6,18 +7,20 @@ const Todos = ({ todos }) => {
   const markAsCompleted = async (todoId) => {
     try {
       setCompletedTodos((prev) => new Set([...prev, todoId]));
-      fetch("http://localhost:3000/completed", {
-        method: "PUT",
-        body: JSON.stringify({
+      await axios.put(
+        "http://localhost:3000/completed",
+        {
           id: todoId,
           completed: true,
-        }),
-        headers: {
-          "content-type": "application/json",
         },
-      }).then(async (res) => {
-        const json = await res.json();
-      });
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+      // refreshTodos();
+      // console.log(response);
     } catch (err) {
       console.log(err);
     }
